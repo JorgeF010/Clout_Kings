@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CLOUT KINGS</string>
+    <string name="title_home">HOME</string>
+    <string name="title_dashboard">CATEGORIES</string>
+    <string name="title_notifications">TRENDING</string>
+    <string name="request">Request</string>
+    <string name="are_we_missing_someone">Are We Missing Someone?</string>
+</resources>
