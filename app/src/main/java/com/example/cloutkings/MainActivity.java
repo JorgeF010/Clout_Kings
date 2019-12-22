@@ -1,6 +1,9 @@
 package com.example.cloutkings;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.cloutkings.ui.ProfileAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     // Person Name
     private ArrayList<Profile> listOfProfiles;
+    // Request Button
+    private Button request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        // Button Listeners
+        this.request = findViewById(R.id.buttonRequest);
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               switch (view.getId()) {
+                   // request
+                   case(R.id.buttonRequest):
+                       openRquestActivity();
+               }
+            }
+        });
         // creating the hasmap of profiles for fast access
         this.listOfProfiles = new ArrayList<>();
         Person current = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
@@ -49,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         this.mAdapter = new ProfileAdapter(this.listOfProfiles);
         this.mRecyclerView.setLayoutManager(this.mLayoutManager);
         this.mRecyclerView.setAdapter(this.mAdapter);
+    }
+
+    public void openRquestActivity() {
+        Intent intent = new Intent(this, RequestActivity.class);
+        startActivity(intent);
     }
 
 //    public void addProfile() {
