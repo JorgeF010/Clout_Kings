@@ -46,20 +46,21 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         // Button Listeners
         this.request = findViewById(R.id.buttonRequest);
-        request.setOnClickListener(new View.OnClickListener() {
+        this.request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                switch (view.getId()) {
                    // request
                    case(R.id.buttonRequest):
-                       openRquestActivity();
+                       openRequestActivity();
                }
             }
         });
-        // creating the hasmap of profiles for fast access
         this.listOfProfiles = new ArrayList<>();
         Person current = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
-        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, "Messi", "Professional Soccer Player", current));
+        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
+        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, current.getName(), "Professional Soccer Player", current));
+        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
         this.mRecyclerView = findViewById(R.id.recyclerView);
         this.mRecyclerView.setHasFixedSize(true);
         this.mLayoutManager = new LinearLayoutManager(this);
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         this.mRecyclerView.setAdapter(this.mAdapter);
     }
 
-    public void openRquestActivity() {
+    public void openRequestActivity() {
         Intent intent = new Intent(this, RequestActivity.class);
         startActivity(intent);
     }

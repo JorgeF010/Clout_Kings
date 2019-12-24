@@ -8,4 +8,14 @@
     <string name="line_1">Line 1</string>
     <string name="todo">TODO</string>
     <string name="line_2">Line 2</string>
+    <string name="name">Name:</string>
+    <string name="youtube_link">YouTube Link:</string>
+    <string name="instagram_link">Instagram Link:</string>
+    <string name="tiktok_link">TikTok Link:</string>
+    <string name="submit">Submit</string>
+    <string name="link">Link:</string>
+    <string name="enter_the_person_s_name_and_a_link_to_one_of_their_social_media_platforms">Enter the person\'s name and a link to one of their social media platforms.</string>
+    <string name="social_media_username">Social Media Username:</string>
+    <string name="downvote_button">downVote Button</string>
+    <string name="upvote_button">upVote Button</string>
 </resources>

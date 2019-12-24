@@ -41,6 +41,24 @@
             android:layout_marginStart="8dp"
             />
 
+        <ImageButton
+            android:id="@+id/downVote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/downvote_button"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_downward_black_24dp"/>
+
+        <ImageButton
+            android:id="@+id/upVote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/downVote"
+            android:contentDescription="@string/upvote_button"
+            android:src="@drawable/ic_arrow_upward_black_24dp"
+            android:background="?selectableItemBackgroundBorderless"/>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
