@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.cloutkings.ui.ProfileAdapter;
+import com.example.cloutkings.ui.Score;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Profile> listOfProfiles;
     // Request Button
     private Button request;
+    // upVote Button
+    private ImageButton upVote;
+    // downVote Button
+    private ImageButton downVote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +50,39 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-        // Button Listeners
+        /* Button Listeners **/
+        // Request Button
         this.request = findViewById(R.id.buttonRequest);
         this.request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                switch (view.getId()) {
+                   // SWITCH ( must be deleted )
                    // request
                    case(R.id.buttonRequest):
                        openRequestActivity();
                }
             }
         });
+        // upVote ImageButton
+        this.upVote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // SWITCH ( must be deleted )
+                switch (view.getId()) {
+                    // request
+                    case(R.id.upVote):
+
+                }
+            }
+        });
+        this.upVote = findViewById(R.id.upVote);
         this.listOfProfiles = new ArrayList<>();
-        Person current = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
-        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
-        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, current.getName(), "Professional Soccer Player", current));
-        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
+        Person messi = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
+        Score score = new Score(0);
+//        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
+        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, messi.getName(), "Professional Soccer Player", messi, score));
+//        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
         this.mRecyclerView = findViewById(R.id.recyclerView);
         this.mRecyclerView.setHasFixedSize(true);
         this.mLayoutManager = new LinearLayoutManager(this);
