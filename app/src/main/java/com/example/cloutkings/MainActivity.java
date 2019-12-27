@@ -2,15 +2,19 @@ package com.example.cloutkings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.cloutkings.ui.ProfileAdapter;
 import com.example.cloutkings.ui.Score;
+import com.example.cloutkings.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -45,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_categories, R.id.navigation_trending)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+        // Nav Click Listener - calls method
+        navView.setOnNavigationItemSelectedListener(navListener);
         /* Button Listeners **/
         // Request Button
         this.request = findViewById(R.id.buttonRequest);
@@ -65,18 +71,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // upVote ImageButton
-        this.upVote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // SWITCH ( must be deleted )
-                switch (view.getId()) {
-                    // request
-                    case(R.id.upVote):
-
-                }
-            }
-        });
-        this.upVote = findViewById(R.id.upVote);
+//        this.upVote = findViewById(R.id.upVote);
+//        this.upVote.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // call to increaseScore
+//            }
+//        });
+//        // downVote ImageButton
+//        this.downVote = findViewById(R.id.downVote);
+//        this.downVote.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // call to decreaseScore
+//            }
+//        });
         this.listOfProfiles = new ArrayList<>();
         Person messi = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
         Score score = new Score(0);
@@ -91,6 +100,28 @@ public class MainActivity extends AppCompatActivity {
         this.mRecyclerView.setAdapter(this.mAdapter);
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            Fragment selectedFragment = null;
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_home:
+                    selectedFragment = new HomeFragment();
+                    break;
+                case R.id.navigation_categories:
+                    selectedFragment = new CategoriesFragment();
+                    break;
+//                case R.id.navigation_trending:
+
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, selectedFragment).commit();
+            return true;
+        }
+    };
+
+    /**
+     * Makes a call to the Request Activity
+     */
     public void openRequestActivity() {
         Intent intent = new Intent(this, RequestActivity.class);
         startActivity(intent);
