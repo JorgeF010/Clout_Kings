@@ -1,6 +1,7 @@
 package com.example.cloutkings;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,10 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,11 +62,14 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(navListener);
         /* Profiles **/
         this.listOfProfiles = new ArrayList<>();
-        Person messi = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
-        Score score = new Score(0);
-//        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
-        this.listOfProfiles.add(new Profile(R.drawable.ic_person, messi.getName(), "Professional Soccer Player", messi, score));
-//        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
+        /* This try / catch - will create profiles **/
+        try {
+            addProfiles();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.mRecyclerView = findViewById(R.id.recyclerView);
         this.mRecyclerView.setHasFixedSize(true);
         this.mLayoutManager = new LinearLayoutManager(this);
@@ -128,9 +135,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    public void addProfile() {
-//        Person current = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
-//        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, "Messi", "Professional Soccer Player", current));
-//    }
+    /**
+     * Uses AsyncTask to concurrently run a thread to make a http call.
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public void addProfiles() throws ExecutionException, InterruptedException {
+        AsyncTask<String, Void, ArrayList<Profile>> profiles = new CreateProfiles(new CreateProfiles.AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<Profile> output) {
+
+            }
+        }).execute("https://www.famousbirthdays.com/most-popular-people.html");
+        this.listOfProfiles = profiles.get();
+    }
 
 }
