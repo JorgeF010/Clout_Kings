@@ -56,6 +56,19 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         // Nav Click Listener - calls method
         navView.setOnNavigationItemSelectedListener(navListener);
+        /* Profiles **/
+        this.listOfProfiles = new ArrayList<>();
+        Person messi = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
+        Score score = new Score(0);
+//        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
+        this.listOfProfiles.add(new Profile(R.drawable.ic_person, messi.getName(), "Professional Soccer Player", messi, score));
+//        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
+        this.mRecyclerView = findViewById(R.id.recyclerView);
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mLayoutManager = new LinearLayoutManager(this);
+        this.mAdapter = new ProfileAdapter(this.listOfProfiles);
+        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
+        this.mRecyclerView.setAdapter(this.mAdapter);
         /* Button Listeners **/
         // Request Button
         this.request = findViewById(R.id.buttonRequest);
@@ -86,18 +99,6 @@ public class MainActivity extends AppCompatActivity {
 //                // call to decreaseScore
 //            }
 //        });
-        this.listOfProfiles = new ArrayList<>();
-        Person messi = new Person("Lionel Messi", "https://www.instagram.com/leomessi/?hl=en");
-        Score score = new Score(0);
-//        Person ronaldo = new Person("Christiano Ronaldo", "https://www.instagram.com/cristiano/?hl=en");
-        this.listOfProfiles.add(new Profile(R.drawable.messi_profile_pic_background, messi.getName(), "Professional Soccer Player", messi, score));
-//        this.listOfProfiles.add(new Profile(R.drawable.ic_arrow_upward_black_24dp, ronaldo.getName(), "Professional Soccer Player", ronaldo));
-        this.mRecyclerView = findViewById(R.id.recyclerView);
-        this.mRecyclerView.setHasFixedSize(true);
-        this.mLayoutManager = new LinearLayoutManager(this);
-        this.mAdapter = new ProfileAdapter(this.listOfProfiles);
-        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
-        this.mRecyclerView.setAdapter(this.mAdapter);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
