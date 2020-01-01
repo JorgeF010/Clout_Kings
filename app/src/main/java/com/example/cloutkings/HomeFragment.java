@@ -1,10 +1,13 @@
 package com.example.cloutkings;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +22,17 @@ import com.example.cloutkings.ui.ProfileAdapter;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class HomeFragment extends Fragment {
+/**
+ * Version: 1.0 - Underdevelopment, Uses JSoup, AsyncTask, Classes, Dataclasses and more.
+ * Author: JorgeF010 - Github, jorge-f - Linkedin
+ * Description: This HomeFragment is the first fragment the user sees, It creates the profiles -
+ * and fills them into a RecyclerView using their corresponding classes.
+ * It instantiates the ArrayList of profiles, and a few buttons.
+ * The creation of the profiles is taken care of by the CreateProfiles class, using AsyncTask and JSoup.
+ */
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
+    // Current view of the fragment
     private View view;
     private Fragment home;
     private FragmentManager homeManager;
@@ -33,6 +45,12 @@ public class HomeFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     // Person Name
     private ArrayList<Profile> listOfProfiles;
+    // Request Button
+    private Button request;
+    // upVote Button
+    private ImageButton upVote;
+    // downVote Button
+    private ImageButton downVote;
 
     @Nullable
     @Override
@@ -58,6 +76,14 @@ public class HomeFragment extends Fragment {
         this.mAdapter = new ProfileAdapter(this.listOfProfiles);
         this.mRecyclerView.setLayoutManager(this.mLayoutManager);
         this.mRecyclerView.setAdapter(this.mAdapter);
+
+        /* Button Listeners + Initialized **/
+        this.request = view.findViewById(R.id.buttonRequest);
+        this.upVote = view.findViewById(R.id.upVote);
+        this.downVote = view.findViewById(R.id.downVote);
+        this.request.setOnClickListener(this);
+        this.upVote.setOnClickListener(this);
+        this.downVote.setOnClickListener(this);
         return view;
     }
 
@@ -75,4 +101,29 @@ public class HomeFragment extends Fragment {
         }).execute("https://www.famousbirthdays.com/most-popular-people.html");
         this.listOfProfiles = profiles.get();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.buttonRequest:
+                openRequestActivity();
+                break;
+            case R.id.upVote:
+                // nothing for now
+                break;
+            case R.id.downVote:
+                // nothing for now .
+                break;
+        }
+    }
+
+    /**
+     * Makes a call to the Request Activity
+     * This Request Activity Implements a HashSet to prevent from duplicate requests.
+     */
+    public void openRequestActivity() {
+        Intent intent = new Intent(super.getContext(), RequestActivity.class);
+        startActivity(intent);
+    }
+
 }
