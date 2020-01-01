@@ -1,6 +1,7 @@
 package com.example.cloutkings;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +15,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cloutkings.ui.ProfileAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -51,6 +59,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ImageButton upVote;
     // downVote Button
     private ImageButton downVote;
+    // Ad
+    private AdView adView;
 
     @Nullable
     @Override
@@ -76,14 +86,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.mAdapter = new ProfileAdapter(this.listOfProfiles);
         this.mRecyclerView.setLayoutManager(this.mLayoutManager);
         this.mRecyclerView.setAdapter(this.mAdapter);
-
+        // Adds a space in between profiles
+        this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         /* Button Listeners + Initialized **/
         this.request = view.findViewById(R.id.buttonRequest);
-        this.upVote = view.findViewById(R.id.upVote);
-        this.downVote = view.findViewById(R.id.downVote);
+//        this.upVote = view.findViewById(R.id.upVote);
+//        this.downVote = view.findViewById(R.id.downVote);
         this.request.setOnClickListener(this);
-        this.upVote.setOnClickListener(this);
-        this.downVote.setOnClickListener(this);
+//        this.upVote.setOnClickListener(this);
+//        this.downVote.setOnClickListener(this);
+        /* This makes the request for an AD - make sure to change the ID once the app is done
+           right now it's google's testing ad ID.
+         */
+        MobileAds.initialize(this.getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
+        this.adView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        this.adView.loadAd(adRequest);
         return view;
     }
 
@@ -108,12 +131,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonRequest:
                 openRequestActivity();
                 break;
-            case R.id.upVote:
-                // nothing for now
-                break;
-            case R.id.downVote:
-                // nothing for now .
-                break;
+//            case R.id.upVote:
+//                // nothing for now
+//                break;
+//            case R.id.downVote:
+//                // nothing for now .
+//                break;
         }
     }
 
