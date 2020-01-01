@@ -29,14 +29,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Recycler - created in xml
-    private RecyclerView mRecyclerView;
-    // bridge between our data and our recycler ^^
-    private RecyclerView.Adapter mAdapter;
-    // aligns our profiles in the list
-    private RecyclerView.LayoutManager mLayoutManager;
-    // Person Name
-    private ArrayList<Profile> listOfProfiles;
+    private Fragment home;
     // Request Button
     private Button request;
     // upVote Button
@@ -52,25 +45,8 @@ public class MainActivity extends AppCompatActivity {
         // Nav Click Listener - calls method
         navView.setOnNavigationItemSelectedListener(navListener);
         // Replaces right away the home page with the HomeFragment
-        Fragment start = new HomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, start).commit();
-        /* Profiles **/
-        this.listOfProfiles = new ArrayList<>();
-        /* This try / catch - will create profiles **/
-        try {
-            // Uses JSoup to create new profiles / persons
-            addProfiles();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        // Creating the RecyclerView object
-        this.mRecyclerView = findViewById(R.id.recyclerView);
-        // Better performance + doesn't need to change in size
-        this.mRecyclerView.setHasFixedSize(true);
-        this.mLayoutManager = new LinearLayoutManager(this);
-        this.mAdapter = new ProfileAdapter(this.listOfProfiles);
-        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
-        this.mRecyclerView.setAdapter(this.mAdapter);
+        this.home = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home).commit();
 //        /* Button Listeners **/
 //        // Request Button
 //        this.request = findViewById(R.id.buttonRequest);
@@ -129,21 +105,6 @@ public class MainActivity extends AppCompatActivity {
     public void openRequestActivity() {
         Intent intent = new Intent(this, RequestActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * Uses AsyncTask to concurrently run a thread to make a http call.
-     * @throws ExecutionException
-     * @throws InterruptedException
-     */
-    public void addProfiles() throws ExecutionException, InterruptedException {
-        AsyncTask<String, Void, ArrayList<Profile>> profiles = new CreateProfiles(new CreateProfiles.AsyncResponse() {
-            @Override
-            public void processFinish(ArrayList<Profile> output) {
-
-            }
-        }).execute("https://www.famousbirthdays.com/most-popular-people.html");
-        this.listOfProfiles = profiles.get();
     }
 
 }
