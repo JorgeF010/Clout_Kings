@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 
 import com.example.cloutkings.ui.ProfileAdapter;
 import com.example.cloutkings.ui.Score;
-import com.example.cloutkings.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -49,47 +48,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_categories, R.id.navigation_trending)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         // Nav Click Listener - calls method
         navView.setOnNavigationItemSelectedListener(navListener);
+        // Replaces right away the home page with the HomeFragment
+        Fragment start = new HomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, start).commit();
         /* Profiles **/
         this.listOfProfiles = new ArrayList<>();
         /* This try / catch - will create profiles **/
         try {
+            // Uses JSoup to create new profiles / persons
             addProfiles();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+        // Creating the RecyclerView object
         this.mRecyclerView = findViewById(R.id.recyclerView);
+        // Better performance + doesn't need to change in size
         this.mRecyclerView.setHasFixedSize(true);
         this.mLayoutManager = new LinearLayoutManager(this);
         this.mAdapter = new ProfileAdapter(this.listOfProfiles);
         this.mRecyclerView.setLayoutManager(this.mLayoutManager);
         this.mRecyclerView.setAdapter(this.mAdapter);
-        /* Button Listeners **/
-        // Request Button
-        this.request = findViewById(R.id.buttonRequest);
-        this.request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               switch (view.getId()) {
-                   // SWITCH ( must be deleted )
-                   // request
-                   case(R.id.buttonRequest):
-                       openRequestActivity();
-               }
-            }
-        });
+//        /* Button Listeners **/
+//        // Request Button
+//        this.request = findViewById(R.id.buttonRequest);
+//        this.request.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               switch (view.getId()) {
+//                   // SWITCH ( must be deleted )
+//                   // request
+//                   case(R.id.buttonRequest):
+//                       openRequestActivity();
+//               }
+//            }
+//        });
         // upVote ImageButton
 //        this.upVote = findViewById(R.id.upVote);
 //        this.upVote.setOnClickListener(new View.OnClickListener() {
@@ -119,10 +114,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_categories:
                     selectedFragment = new CategoriesFragment();
                     break;
-//                case R.id.navigation_trending:
-
+                case R.id.navigation_trending:
+                    selectedFragment = new TrendingFragment();
+                    break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
             return true;
         }
     };

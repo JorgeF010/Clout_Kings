@@ -115,4 +115,7 @@
     <string name="games">Games</string>
     <string name="twitch">Twitch</string>
     <string name="list_of_categories">LIST OF CATEGORIES</string>
+    <string name="home">Home</string>
+    <string name="categories">Categories</string>
+    <string name="trending">Trending</string>
 </resources>
