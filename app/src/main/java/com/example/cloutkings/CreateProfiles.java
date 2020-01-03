@@ -58,7 +58,7 @@ public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> 
         // ArrayList which the created profiles will be added to
         ArrayList<Profile> profilesFromSite = new ArrayList<>();
         // By default all profiles start with a score of 0
-        Score score = new Score(0);
+        int score = 0;
         // count kept to access the correct index from the profilesFromSite array
         int i = 0;
         String currentFamousFor;

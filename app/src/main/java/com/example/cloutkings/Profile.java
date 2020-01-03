@@ -6,7 +6,8 @@ public class Profile{
     private String mText1;
     private String mText2;
     private Person person;
-    private Score score;
+//    private Score score;
+    private int score;
     private String platform;
 
     /**
@@ -15,9 +16,9 @@ public class Profile{
      * @param mText1 - Large Text ( person's name )
      * @param mText2 - Smaller Text ( where they are famous ( social media platform, etc..) )
      * @param person - Person Object ( see class )
-     * @param score - Score Object ( see class )
+     * @param score - score ( int )
      */
-    public Profile(int mImageResource, String mText1, String mText2, Person person, Score score,
+    public Profile(int mImageResource, String mText1, String mText2, Person person, int score,
                    String platform) {
         this.mImageResource = mImageResource;
         this.mText1 = mText1;
@@ -56,20 +57,20 @@ public class Profile{
      * @return - int ( score )
      */
     public int getScore() {
-        return this.score.getScore();
+        return this.score;
     }
 
     /**
      * This method will be called when the downVote button is clicked.
      */
     public void decreaseScore() {
-        this.score.downVoteScore();
+        this.score -= 1;
     }
 
     /**
      * This method will be called when the upVote button is clicked.
      */
     public void increaseScore() {
-        this.score.upVoteScore();
+        this.score += 1;
     }
 }

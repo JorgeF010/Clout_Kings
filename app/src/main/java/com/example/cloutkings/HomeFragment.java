@@ -27,6 +27,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -179,16 +180,27 @@ public class HomeFragment extends Fragment  {
     }
 
     public void moveUp(int position) {
-        if(position != 0) {
-            Collections.swap(this.listOfProfiles, position, position - 1);
-            this.mAdapter.notifyItemMoved(position, position - 1);
-        }
+        Profile current = this.listOfProfiles.get(position);
+        current.increaseScore();
+        Collections.sort(listOfProfiles, new SortByScore());
+        int updatedIndex = this.listOfProfiles.indexOf(current);
+        this.mAdapter.notifyItemMoved(position, updatedIndex);
     }
 
     public void moveDown(int position) {
-        if(position != this.listOfProfiles.size() - 1) {
-            Collections.swap(this.listOfProfiles, position, position + 1);
-            this.mAdapter.notifyItemMoved(position, position + 1);
+        // prevents index out of bounds
+        Profile current = this.listOfProfiles.get(position);
+        current.decreaseScore();
+        Collections.sort(listOfProfiles, new SortByScore());
+        int updatedIndex = this.listOfProfiles.indexOf(current);
+        this.mAdapter.notifyItemMoved(position, updatedIndex);
+    }
+
+    class SortByScore implements Comparator<Profile> {
+
+        @Override
+        public int compare(Profile profile, Profile other) {
+            return other.getScore() - profile.getScore();
         }
     }
 
