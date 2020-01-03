@@ -1,4 +1,4 @@
-package com.example.cloutkings.ui;
+package com.example.cloutkings;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,26 +9,53 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cloutkings.Profile;
-import com.example.cloutkings.R;
-
 import java.util.ArrayList;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
 
     private ArrayList<Profile> profileArrayList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        // open profile
+//        void onItemClick(int position);
+        void onUpVoteClick(int position);
+        void onDownVoteClick(int position);
+    }
+
+    public void setOnClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
 
     public static class ProfileViewHolder extends RecyclerView.ViewHolder {
         // fields for the profiles
-        public ImageView mImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
+        private ImageView mImageView;
+        private TextView mTextView1;
+        private TextView mTextView2;
+        private ImageView upVote;
+        private ImageView downVote;
 
-        public ProfileViewHolder(@NonNull View itemView) {
+
+        public ProfileViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             this.mImageView = itemView.findViewById(R.id.imageView);
             this.mTextView1 = itemView.findViewById(R.id.textView);
             this.mTextView2 = itemView.findViewById(R.id.textView2);
+            this.upVote = itemView.findViewById(R.id.upVote);
+            this.downVote = itemView.findViewById(R.id.downVote);
+
+            upVote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener  != null) {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION) {
+                            listener.onUpVoteClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
@@ -40,7 +67,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileV
     @Override
     public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile, parent, false);
-        return new ProfileViewHolder(v);
+        return new ProfileViewHolder(v, mListener);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.cloutkings.ui;
+package com.example.cloutkings;
 
 import androidx.annotation.NonNull;
 

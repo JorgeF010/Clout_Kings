@@ -1,7 +1,5 @@
 package com.example.cloutkings;
 
-import com.example.cloutkings.ui.Score;
-
 public class Profile{
 
     private int mImageResource;
@@ -9,6 +7,7 @@ public class Profile{
     private String mText2;
     private Person person;
     private Score score;
+    private String platform;
 
     /**
      * The Profile object contains everything needed to represent a person on the app.
@@ -18,12 +17,14 @@ public class Profile{
      * @param person - Person Object ( see class )
      * @param score - Score Object ( see class )
      */
-    public Profile(int mImageResource, String mText1, String mText2, Person person, Score score) {
+    public Profile(int mImageResource, String mText1, String mText2, Person person, Score score,
+                   String platform) {
         this.mImageResource = mImageResource;
         this.mText1 = mText1;
         this.mText2 = mText2;
         this.person = person;
         this.score = score;
+        this.platform = platform;
     }
 
     /**

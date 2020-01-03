@@ -1,7 +1,6 @@
 package com.example.cloutkings;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,9 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.cloutkings.ui.ProfileAdapter;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -38,7 +35,7 @@ import java.util.concurrent.ExecutionException;
  * It instantiates the ArrayList of profiles, and a few buttons.
  * The creation of the profiles is taken care of by the CreateProfiles class, using AsyncTask and JSoup.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment  {
 
     // Current view of the fragment
     private View view;
@@ -48,7 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     // Recycler - created in xml
     private RecyclerView mRecyclerView;
     // bridge between our data and our recycler ^^
-    private RecyclerView.Adapter mAdapter;
+    private ProfileAdapter mAdapter;
     // aligns our profiles in the list
     private RecyclerView.LayoutManager mLayoutManager;
     // Person Name
@@ -65,10 +62,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Makes sure beginTransaction is never null
         assert this.homeManager != null;
         this.homeManager = getFragmentManager();
         this.homeTransaction = homeManager.beginTransaction();
         this.view = inflater.inflate(R.layout.fragment_home, container, false);
+        // Calls made to display home fragment
+        createProfiles();
+        buildRecyclerView();
+        setButtons();
+        setAds();
+        return view;
+    }
+
+    /**
+     * Initializes the Array of Profiles and then calls addProfiles()
+     * Exceptions: May catch an ExecutionException or an InterruptedException.
+     */
+    public void createProfiles() {
         /* Profiles **/
         this.listOfProfiles = new ArrayList<>();
         /* This try / catch - will create profiles **/
@@ -78,6 +89,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Builds the RecyclerView and the upVote and downVote ImageButtons
+     */
+    public void buildRecyclerView() {
         // Creating the RecyclerView object
         this.mRecyclerView = view.findViewById(R.id.recyclerView);
         // Better performance + doesn't need to change in size
@@ -88,26 +105,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.mRecyclerView.setAdapter(this.mAdapter);
         // Adds a space in between profiles
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        /* Button Listeners + Initialized **/
-        this.request = view.findViewById(R.id.buttonRequest);
-//        this.upVote = view.findViewById(R.id.upVote);
-//        this.downVote = view.findViewById(R.id.downVote);
-        this.request.setOnClickListener(this);
-//        this.upVote.setOnClickListener(this);
-//        this.downVote.setOnClickListener(this);
-        /* This makes the request for an AD - make sure to change the ID once the app is done
-           right now it's google's testing ad ID.
-         */
-        MobileAds.initialize(this.getContext(), new OnInitializationCompleteListener() {
+        this.mAdapter.setOnClickListener(new ProfileAdapter.OnItemClickListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            public void onUpVoteClick(int position) {
+
+            }
+
+            @Override
+            public void onDownVoteClick(int position) {
 
             }
         });
-        this.adView = view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        this.adView.loadAd(adRequest);
-        return view;
+
+    }
+
+    /**
+     * Instantiates all buttons and their corresponding click listeners
+     */
+    public void setButtons() {
+        /* Button Listeners + Initialized **/
+        this.request = view.findViewById(R.id.buttonRequest);
+        this.upVote = view.findViewById(R.id.upVote);
+        this.downVote = view.findViewById(R.id.downVote);
+        this.request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getId() == R.id.buttonRequest) {
+                    openRequestActivity();
+                }
+            }
+        });
     }
 
     /**
@@ -125,21 +152,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.listOfProfiles = profiles.get();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.buttonRequest:
-                openRequestActivity();
-                break;
-//            case R.id.upVote:
-//                // nothing for now
-//                break;
-//            case R.id.downVote:
-//                // nothing for now .
-//                break;
-        }
-    }
-
     /**
      * Makes a call to the Request Activity
      * This Request Activity Implements a HashSet to prevent from duplicate requests.
@@ -147,6 +159,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void openRequestActivity() {
         Intent intent = new Intent(super.getContext(), RequestActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Setups up Google Ads on the HomeFragment page
+     */
+    public void setAds() {
+        MobileAds.initialize(this.getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
+        this.adView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        this.adView.loadAd(adRequest);
     }
 
 }

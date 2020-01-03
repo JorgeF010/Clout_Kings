@@ -1,8 +1,6 @@
 package com.example.cloutkings;
 import android.os.AsyncTask;
 
-import com.example.cloutkings.ui.Score;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,6 +20,17 @@ import java.util.ArrayList;
  * It holds a nested interface to help with the return value of onPostExecute
  */
 public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> {
+
+    // Instagram + Facebook + YouTube
+    private ArrayList<Profile> socialMedia;
+    private ArrayList<Profile> TikTok;
+//    private ArrayList<Profile> dancer;
+//    private ArrayList<Profile> realityStar;
+    private ArrayList<Profile> rapper;
+    // Both Movie Actors and TV Actors
+//    private ArrayList<Profile> actors;
+    private ArrayList<Profile> sports;
+    private ArrayList<Profile> twitch;
 
     // Interface to get result
     public interface AsyncResponse {
@@ -57,7 +66,8 @@ public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> 
         for (Element person : namesAndAges) {
             currentFamousFor = famousFor.get(i).text();
             Person newPerson = new Person(person.text(), "N/A");
-            Profile newProfile = new Profile(R.drawable.ic_person, newPerson.getName(), currentFamousFor, newPerson, score);
+            Profile newProfile = new Profile(R.drawable.ic_person, newPerson.getName(), currentFamousFor, newPerson,
+                    score, currentFamousFor);
             profilesFromSite.add(newProfile);
             i++;
         }
