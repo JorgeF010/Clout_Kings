@@ -25,6 +25,8 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -108,12 +110,12 @@ public class HomeFragment extends Fragment  {
         this.mAdapter.setOnClickListener(new ProfileAdapter.OnItemClickListener() {
             @Override
             public void onUpVoteClick(int position) {
-
+                moveUp(position);
             }
 
             @Override
             public void onDownVoteClick(int position) {
-
+                moveDown(position);
             }
         });
 
@@ -174,6 +176,20 @@ public class HomeFragment extends Fragment  {
         this.adView = view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         this.adView.loadAd(adRequest);
+    }
+
+    public void moveUp(int position) {
+        if(position != 0) {
+            Collections.swap(this.listOfProfiles, position, position - 1);
+            this.mAdapter.notifyItemMoved(position, position - 1);
+        }
+    }
+
+    public void moveDown(int position) {
+        if(position != this.listOfProfiles.size() - 1) {
+            Collections.swap(this.listOfProfiles, position, position + 1);
+            this.mAdapter.notifyItemMoved(position, position + 1);
+        }
     }
 
 }
