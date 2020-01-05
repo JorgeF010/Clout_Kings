@@ -100,29 +100,26 @@ public class CategoriesFragment extends Fragment {
         this.mAdapter.setOnItemClickListener(new CategoriesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Fragment category = null;
+                Fragment categoryFragment = null;
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = manager.beginTransaction();
-                if( position == 0 ) {
-                    category = new HomeFragment();
-                }
-                else if( position == 1 ) {
-                    category = new HomeFragment();
-                }
-                fragmentTransaction.replace(R.id.listOfCategories, category).addToBackStack(null).commit();
+                // may need to access the first instance not create a new one because their values will be different
+                // might not have to do that too because If I create a table i can update that table and just check the table
+                categoryFragment = newInstance(position);
+                fragmentTransaction.replace(R.id.listOfCategories, categoryFragment).addToBackStack(null).commit();
             }
         });
 
 
     }
 
-//    public static CategoryFragment newInstance(int id) {
-//        CategoryFragment categoryFragment = new CategoryFragment();
-//        Bundle args = new Bundle();
-//        args.putInt("ID", id);
-//        categoryFragment.setArguments(args);
-//        return categoryFragment;
-//    }
+    public static ProfilesFragment newInstance(int id) {
+        ProfilesFragment categoryFragment = new ProfilesFragment();
+        Bundle args = new Bundle();
+        args.putInt("ID", id);
+        categoryFragment.setArguments(args);
+        return categoryFragment;
+    }
 
     /**
      * Setups up Google Ads on the CategoriesFragment page

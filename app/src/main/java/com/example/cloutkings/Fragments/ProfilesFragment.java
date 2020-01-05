@@ -31,18 +31,17 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Version: 1.0 - Underdevelopment, Uses JSoup, AsyncTask, Classes, Dataclasses and more.
  * Author: JorgeF010 - Github, jorge-f - Linkedin
- * Description: This HomeFragment is the first fragment the user sees, It creates the profiles -
+ * Description: This ProfilesFragment is the first fragment the user sees, It creates the profiles -
  * and fills them into a RecyclerView using their corresponding classes.
  * It instantiates the ArrayList of profiles, and a few buttons.
  * The creation of the profiles is taken care of by the CreateProfiles class, using AsyncTask and JSoup.
  */
-public class HomeFragment extends Fragment  {
+public class ProfilesFragment extends Fragment  {
 
     // Current view of the fragment
     private View view;
@@ -73,9 +72,13 @@ public class HomeFragment extends Fragment  {
         assert this.homeManager != null;
         this.homeManager = getFragmentManager();
         this.homeTransaction = homeManager.beginTransaction();
-        this.view = inflater.inflate(R.layout.fragment_home, container, false);
+        this.view = inflater.inflate(R.layout.fragment_profiles, container, false);
+        boolean args = false;
+        if (getArguments() != null && getArguments().containsKey("ID")) {
+            args = true;
+        }
         // Calls made to display home fragment
-        createProfiles();
+        createProfiles(args);
         buildRecyclerView();
         setButtons();
         setAds();
@@ -86,13 +89,19 @@ public class HomeFragment extends Fragment  {
      * Initializes the Array of Profiles and then calls addProfiles()
      * Exceptions: May catch an ExecutionException or an InterruptedException.
      */
-    public void createProfiles() {
+    public void createProfiles(boolean args) {
+        // an ID of -1 get's the global user's
+        int id = -1;
+        if(args) {
+            // and ID of anything but -1 get's a different list of profiles
+            id = getArguments().getInt("ID");
+        }
         /* Profiles **/
         this.listOfProfiles = new ArrayList<>();
         /* This try / catch - will create profiles **/
         try {
             // Uses JSoup to create new profiles / persons
-            addProfiles();
+            addProfiles(id);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -150,13 +159,65 @@ public class HomeFragment extends Fragment  {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public void addProfiles() throws ExecutionException, InterruptedException {
+    public void addProfiles(int id) throws ExecutionException, InterruptedException {
+        String url;
+        switch (id) {
+            // YouTube
+            case 0:
+                url = "https://www.famousbirthdays.com/profession/youtubestar.html";
+                break;
+            // Instagram
+            case 1:
+                url = "https://www.famousbirthdays.com/profession/instagramstar.html";
+                break;
+            // TikTok
+            case 2:
+                url = "https://www.famousbirthdays.com/profession/tiktokstar.html";
+                break;
+            // Twitch
+            case 3:
+                url = "https://www.famousbirthdays.com/profession/twitchstar.html";
+                break;
+            // Entrepreneurs
+            case 4:
+                url = "https://www.famousbirthdays.com/profession/entrepreneur.html";
+                break;
+            // Music ( rappers )
+            case 5:
+                url = "https://www.famousbirthdays.com/profession/rapper.html";
+                break;
+            // Music Producers
+            case 6:
+                url = "https://www.famousbirthdays.com/profession/musicproducer.html";
+                break;
+            // Soccer Players
+            case 7:
+                url = "https://www.famousbirthdays.com/profession/soccerplayer.html";
+                break;
+            // Football Players
+            case 8:
+                url = "https://www.famousbirthdays.com/profession/footballplayer.html";
+                break;
+            // Basketball Players
+            case 9:
+                url = "https://www.famousbirthdays.com/profession/basketballplayer.html";
+                break;
+            // Baseball Players
+            case 10:
+                url = "https://www.famousbirthdays.com/profession/baseballplayer.html";
+                break;
+            // worldwide
+            default:
+                url = "https://www.famousbirthdays.com/most-popular-people.html";
+                break;
+        }
+
         AsyncTask<String, Void, ArrayList<Profile>> profiles = new CreateProfiles(new CreateProfiles.AsyncResponse() {
             @Override
             public void processFinish(ArrayList<Profile> output) {
 
             }
-        }).execute("https://www.famousbirthdays.com/most-popular-people.html");
+        }).execute(url);
         this.listOfProfiles = profiles.get();
     }
 
@@ -170,7 +231,7 @@ public class HomeFragment extends Fragment  {
     }
 
     /**
-     * Setups up Google Ads on the HomeFragment page
+     * Setups up Google Ads on the ProfilesFragment page
      */
     public void setAds() {
         MobileAds.initialize(this.getContext(), new OnInitializationCompleteListener() {

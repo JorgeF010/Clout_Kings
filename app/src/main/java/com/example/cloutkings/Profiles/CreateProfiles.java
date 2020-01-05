@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * main thread work concurrently with the task of the HTTP call.
  * It takes in a String ( URL ) ( arg 1 ), no progress is needed ( arg 2 ), and the result is an -
  * ArrayList of profiles.
- * This list is then used to populate the HomeFragment with profiles visible to the user.
+ * This list is then used to populate the ProfilesFragment with profiles visible to the user.
  * It holds a nested interface to help with the return value of onPostExecute
  */
 public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> {
@@ -56,7 +56,10 @@ public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> 
         // CSS Query used to select data
         Elements namesAndAges = doc.select(".name");
         // Reason to why they are famous
-        Elements famousFor = doc.select(".title");
+        Elements famousFor = null;
+        if(urls[0].contains("most-popular-people")) {
+            famousFor = doc.select(".title");
+        }
         // ArrayList which the created profiles will be added to
         ArrayList<Profile> profilesFromSite = new ArrayList<>();
         // By default all profiles start with a score of 0
@@ -66,7 +69,12 @@ public class CreateProfiles extends AsyncTask<String, Void, ArrayList<Profile>> 
         String currentFamousFor;
         // for-loop needed to iterate through both nameAndAges and famousFor data
         for (Element person : namesAndAges) {
-            currentFamousFor = famousFor.get(i).text();
+            if(famousFor != null) {
+                currentFamousFor = famousFor.get(i).text();
+            }
+            else {
+                currentFamousFor = "";
+            }
             Person newPerson = new Person(person.text(), "N/A");
             Profile newProfile = new Profile(R.drawable.ic_person, newPerson.getName(), currentFamousFor, newPerson,
                     score, currentFamousFor);

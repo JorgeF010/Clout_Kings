@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.cloutkings.Fragments.CategoriesFragment;
-import com.example.cloutkings.Fragments.HomeFragment;
+import com.example.cloutkings.Fragments.ProfilesFragment;
 import com.example.cloutkings.Fragments.TrendingFragment;
 import com.example.cloutkings.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
  * Author: JorgeF010 - Github, jorge-f - Linkedin
  * Description: This class creates the bottom navigation UI from the menu xml -
  * it then creates a listener to switch between fragments. But when it is initialized -
- * it sets the fragment_home as the first page. The rest is take care of by the HomeFragment class.
+ * it sets the fragment_profiles as the first page. The rest is take care of by the ProfilesFragment class.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         // Nav Click Listener - calls method
         navView.setOnNavigationItemSelectedListener(navListener);
-        // Replaces right away the home page with the HomeFragment
-        this.home = new HomeFragment();
+        // Replaces right away the home page with the ProfilesFragment
+        this.home = new ProfilesFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, home).commit();
     }
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
-                    selectedFragment = new HomeFragment();
+                    selectedFragment = new ProfilesFragment();
                     break;
                 case R.id.navigation_categories:
                     selectedFragment = new CategoriesFragment();
