@@ -1,5 +1,7 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Profiles;
 import android.os.AsyncTask;
+
+import com.example.cloutkings.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

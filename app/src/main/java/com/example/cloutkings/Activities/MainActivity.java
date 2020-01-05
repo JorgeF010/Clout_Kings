@@ -1,11 +1,12 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.example.cloutkings.Fragments.CategoriesFragment;
+import com.example.cloutkings.Fragments.HomeFragment;
+import com.example.cloutkings.Fragments.TrendingFragment;
+import com.example.cloutkings.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

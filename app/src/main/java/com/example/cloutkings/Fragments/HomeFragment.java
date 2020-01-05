@@ -1,4 +1,4 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Fragments;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,6 +18,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cloutkings.Profiles.CreateProfiles;
+import com.example.cloutkings.Profiles.Profile;
+import com.example.cloutkings.Profiles.ProfileAdapter;
+import com.example.cloutkings.R;
+import com.example.cloutkings.Activities.RequestActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -25,7 +30,6 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
@@ -51,7 +55,7 @@ public class HomeFragment extends Fragment  {
     private ProfileAdapter mAdapter;
     // aligns our profiles in the list
     private RecyclerView.LayoutManager mLayoutManager;
-    // Person Name
+    // List of profiles for worldwide
     private ArrayList<Profile> listOfProfiles;
     // Request Button
     private Button request;
@@ -108,6 +112,7 @@ public class HomeFragment extends Fragment  {
         this.mRecyclerView.setAdapter(this.mAdapter);
         // Adds a space in between profiles
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        // Calls either moveUp or moveDown - expand to see code
         this.mAdapter.setOnClickListener(new ProfileAdapter.OnItemClickListener() {
             @Override
             public void onUpVoteClick(int position) {
@@ -183,25 +188,27 @@ public class HomeFragment extends Fragment  {
         Profile current = this.listOfProfiles.get(position);
         current.increaseScore();
         Collections.sort(listOfProfiles, new SortByScore());
-        int updatedIndex = this.listOfProfiles.indexOf(current);
-        this.mAdapter.notifyItemMoved(position, updatedIndex);
+        int updatedPosition = this.listOfProfiles.indexOf(current);
+        this.mAdapter.notifyItemMoved(position, updatedPosition);
     }
 
     public void moveDown(int position) {
-        // prevents index out of bounds
         Profile current = this.listOfProfiles.get(position);
         current.decreaseScore();
         Collections.sort(listOfProfiles, new SortByScore());
-        int updatedIndex = this.listOfProfiles.indexOf(current);
-        this.mAdapter.notifyItemMoved(position, updatedIndex);
+        int updatedPosition = this.listOfProfiles.indexOf(current);
+        this.mAdapter.notifyItemMoved(position, updatedPosition);
     }
 
-    class SortByScore implements Comparator<Profile> {
-
-        @Override
-        public int compare(Profile profile, Profile other) {
-            return other.getScore() - profile.getScore();
-        }
-    }
+//    /**
+//     * Used to sort the profiles from the most votes to the least
+//     */
+//    class SortByScore implements Comparator<Profile> {
+//
+//        @Override
+//        public int compare(Profile profile, Profile other) {
+//            return other.getScore() - profile.getScore();
+//        }
+//    }
 
 }

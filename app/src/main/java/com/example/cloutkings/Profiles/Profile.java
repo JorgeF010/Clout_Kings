@@ -1,4 +1,5 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Profiles;
+
 
 public class Profile{
 
@@ -6,9 +7,10 @@ public class Profile{
     private String mText1;
     private String mText2;
     private Person person;
-//    private Score score;
     private int score;
     private String platform;
+    private boolean upVoted;
+    private boolean downVoted;
 
     /**
      * The Profile object contains everything needed to represent a person on the app.
@@ -26,6 +28,8 @@ public class Profile{
         this.person = person;
         this.score = score;
         this.platform = platform;
+        this.upVoted = false;
+        this.downVoted = false;
     }
 
     /**
@@ -64,13 +68,43 @@ public class Profile{
      * This method will be called when the downVote button is clicked.
      */
     public void decreaseScore() {
-        this.score -= 1;
+        if(!this.downVoted) {
+            this.score -= 1;
+            setDownVoted();
+        }
     }
 
     /**
      * This method will be called when the upVote button is clicked.
      */
     public void increaseScore() {
-        this.score += 1;
+        if(!this.upVoted) {
+            this.score += 1;
+            setUpVoted();
+        }
+    }
+
+    /**
+     * If this profile has been upVoted it can only be downVoted now
+     */
+    public void setUpVoted() {
+        this.upVoted = true;
+        if(this.downVoted) {
+            this.downVoted = false;
+        }
+        // case 1: upVoted = true, downVoted = false
+        // case 2: upVoted = false, upVoted = true
+        // case 3: upVoted = true, downVoted = false, but then downVoted, so now upVoted has to be false and downVoted true
+    }
+
+    /**
+     * If this profile has been downVoted it can only be upVoted now
+     */
+    public void setDownVoted() {
+        this.downVoted = true;
+        // this is for the case they decide to downVote instead
+        if(this.upVoted) {
+            this.upVoted = false;
+        }
     }
 }

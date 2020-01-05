@@ -8,7 +8,7 @@
     android:background="@android:color/darker_gray">
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewCategories"
+        android:id="@+id/adViewCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -17,14 +17,14 @@
         android:layout_marginBottom="21dp"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerViewCategories"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewCategory"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCategories"
+        android:id="@+id/recyclerViewCategory"
         android:layout_width="409dp"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"

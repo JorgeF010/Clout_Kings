@@ -1,4 +1,4 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.cloutkings.R;
 
 import java.util.HashMap;
 

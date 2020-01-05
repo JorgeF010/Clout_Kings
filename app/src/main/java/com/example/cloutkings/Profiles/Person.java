@@ -1,8 +1,7 @@
-package com.example.cloutkings;
+package com.example.cloutkings.Profiles;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLOutput;
 
 public class Person {
 
@@ -22,25 +21,6 @@ public class Person {
         }
     }
 
-
-//    public Person(String name, String instagram, String tickTock, String youTube) {
-//        this.name = name;
-//        try {
-//            this.Instagram = new URL(instagram);
-//            this.TickTock = new URL(tickTock);
-//            this.YouTube = new URL(youTube);
-//        }
-//        catch (MalformedURLException ex) {
-//            System.out.println(ex.getMessage());
-//        }
-//    }
-//    public Person(String name, String instagram, String youTube) {
-//
-//    }
-//
-//    public Person(String name, String instagram, String tickTock) {
-//
-//    }
 
     public String getName() {
         return name;
