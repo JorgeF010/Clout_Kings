@@ -200,15 +200,4 @@ public class HomeFragment extends Fragment  {
         this.mAdapter.notifyItemMoved(position, updatedPosition);
     }
 
-//    /**
-//     * Used to sort the profiles from the most votes to the least
-//     */
-//    class SortByScore implements Comparator<Profile> {
-//
-//        @Override
-//        public int compare(Profile profile, Profile other) {
-//            return other.getScore() - profile.getScore();
-//        }
-//    }
-
 }

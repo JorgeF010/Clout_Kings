@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cloutkings.Categories.Category;
-import com.example.cloutkings.Categories.CategoryAdapter;
-import com.example.cloutkings.Profiles.ProfileAdapter;
+import com.example.cloutkings.Categories.CategoriesAdapter;
 import com.example.cloutkings.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,7 +34,7 @@ public class CategoriesFragment extends Fragment {
     private FragmentTransaction catTransaction;
     // RecyclerView - Categories
     private RecyclerView mRecyclerView;
-    private CategoryAdapter mAdapter;
+    private CategoriesAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     // HashMap
     private ArrayList<Category> listOfCategories;
@@ -94,22 +92,27 @@ public class CategoriesFragment extends Fragment {
         // Better performance + doesn't need to change in size
         this.mRecyclerView.setHasFixedSize(true);
         this.mLayoutManager = new LinearLayoutManager(super.getContext());
-        this.mAdapter = new CategoryAdapter(this.listOfCategories);
+        this.mAdapter = new CategoriesAdapter(this.listOfCategories);
         this.mRecyclerView.setLayoutManager(this.mLayoutManager);
         this.mRecyclerView.setAdapter(this.mAdapter);
         // Adds a space in between categories
         this.mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        this.mAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+        this.mAdapter.setOnItemClickListener(new CategoriesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Fragment category = null;
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = manager.beginTransaction();
                 if( position == 0 ) {
-//                    newInstance(0);
+                    category = new HomeFragment();
                 }
                 else if( position == 1 ) {
-//                    newInstance(1);
+                    category = new HomeFragment();
                 }
+                fragmentTransaction.replace(R.id.listOfCategories, category).addToBackStack(null).commit();
             }
         });
+
 
     }
 

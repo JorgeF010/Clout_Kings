@@ -13,7 +13,7 @@ import com.example.cloutkings.R;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
     private ArrayList<Category> categoryArrayList;
     private OnItemClickListener mListener;
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    public CategoryAdapter(ArrayList <Category> categories) {
+    public CategoriesAdapter(ArrayList <Category> categories) {
         this.categoryArrayList = categories;
     }
 

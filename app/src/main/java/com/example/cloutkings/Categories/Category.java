@@ -32,4 +32,5 @@ public class Category {
         return this.mText1;
     }
 
+
 }
