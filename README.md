@@ -4,8 +4,15 @@
 ------------------------------------------------------------------------------------------------------------------
 What does this app do?
 ------------------------------------------------------------------------------------------------------------------
-This app allows android user's to rank famous people using upvotes and downvotes, there is a worldwide fragment that
-allows users to see who's the most upvoted person in the whole world. There's categories where user's can see who's
-liked the most within their desired catergory. Finally there's a trending fragment, where users can see who's been
-upvoted the most within the span of the last 24hrs.
+Ranking app based on famous people's popularity
+Developed in Java, using Android Studio.
+The profiles are obtained using JSoup, Java's library to parse the
+readily available data off sites like Instagram, Tiktok, and YouTube.
+The profiles will be stored in a database using PostgreSQL and
+retrieved using an API.
+Each profile has a score that pertains to how many
+up-votes/down-votes they've received.
+The app updates and displays the profiles' ranking based on their
+score and their category, examples of categories are YouTube, Sports,
+Gaming, etc.
 ==================================================================================================================
